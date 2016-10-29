@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-md-3 col-sm-3 col-xs-12 bundle-label">Username</div>
+  <div class="col-md-6 col-sm-6 col-xs-12 bundle-property">{{user.username}}</div>
+</div>
+
+<h5 style="margin-top: 20px">Groups</h5>
+<ul class="list-group" >
+  <li *ngFor="let group of belongingGroups" class="list-group-item">
+    <span class="glyphicon glyphicon-folder-close"></span> {{group.name}}
+  </li>
+</ul>
+
+<div class="ln_solid"></div>
+<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+  <button class="btn btn-primary" (click)="enableEdit()">Edit</button>
+  <button class="btn btn-link" (click)="remove()">Remove</button>
+</div>

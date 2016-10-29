@@ -1,0 +1,10 @@
+<ul class="list-unstyled top_profiles scroll-view">
+  <li *ngFor="let group of userGroups" class="media event">
+    <a class="pull-left border-green profile_thumb">
+      <i class="fa fa-users green"></i>
+    </a>
+    <div class="media-body vcenter">
+      <a href="javascript:void(0);" class="title">{{group.name}}</a>
+    </div>
+  </li>
+</ul>

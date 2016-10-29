@@ -1,0 +1,119 @@
+<gtl-page-content [title]="'Manage users'" [searchBar]="false">
+  <div class="row">
+    <gtl-panel [title]="'Users'"
+               [closable]="false"
+               [hidable]="true"
+               [sizeClasses]="'col-md-6 col-sm-12 col-xs-12'">
+      <accordion [closeOthers]="true" class="accordion">
+        <div *ngFor="let user of users; let i = index" accordion-item class="panel">
+          <a accordion-heading class="panel-heading" href="#">
+            <h4 class="panel-title">{{user.username}}</h4>
+          </a>
+          <div class="panel-body">
+            <app-user *ngIf="!editedUsers[i]" [user]="user" [belongingGroups]="getUsersGroups(user)"
+                      (editEnabled)="editedUsers[i] = true" (removed)="askRemoveUser($event)">
+            </app-user>
+            <app-user-form *ngIf="editedUsers[i]" [user]="user" [isNew]="false"
+                           (editCanceled)="editedUsers[i] = false; usersBeingEdited[i] = false"
+                           (userSubmitted)="updateUser($event); editedUsers[i] = false; usersBeingEdited[i] = false"
+                           (editingStarted)="usersBeingEdited[i] = true">
+            </app-user-form>
+          </div>
+
+        </div>
+
+        <modal #userRemoveModal
+               [modalTitle]="'Remove?'"
+               [closeButton]="false"
+               [closeOnUnfocus]="false"
+               [size]="'sm'">
+          <div class="modal-body">
+            Are you sure?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="userRemoveModal.closeModal()"
+                    [disabled]="removingUserInProgress">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" (click)="removeUser(userToRemove)"
+                    [disabled]="removingUserInProgress">
+              Remove
+            </button>
+          </div>
+        </modal>
+
+        <div accordion-item class="panel" id="add-user-panel" #newUserPanel>
+          <a accordion-heading class="panel-heading" href="#">
+            <h4 class="panel-title"><i class="fa fa-plus" aria-hidden="true"></i>{{'&nbsp;'.repeat(3)}}New user</h4>
+          </a>
+          <div class="panel-body">
+            <app-user-form [isNew]="true" (userSubmitted)="createUser($event); newUserIsBeingEdited = false"
+                           (editCanceled)="newUserPanel.open = false; newUserIsBeingEdited = false"
+                           (editingStarted)="newUserIsBeingEdited = true"></app-user-form>
+          </div>
+        </div>
+      </accordion>
+    </gtl-panel>
+
+    <gtl-panel [title]="'User groups'"
+               [closable]="false"
+               [hidable]="true"
+               [sizeClasses]="'col-md-6 col-sm-12 col-xs-12'">
+      <accordion [closeOthers]="true" class="accordion">
+        <div *ngFor="let group of groups; let i = index" accordion-item class="panel">
+          <a accordion-heading class="panel-heading" href="#">
+            <h4 class="panel-title">{{group.name}} <span *ngIf="group.automaticallyCreated" style="color: #9e9e9a">(auto-created)</span>
+            </h4>
+          </a>
+          <div class="panel-body">
+            <app-user-group *ngIf="!editedGroups[i]" [group]="group"
+                            (editEnabled)="editedGroups[i] = true"
+                            (removed)="askRemoveGroup($event)">
+            </app-user-group>
+            <app-user-group-form *ngIf="editedGroups[i]" [group]="group" [allUsers]="users"
+                                 (groupSubmitted)="updateGroup($event); editedGroups[i]=false; groupsBeingEdited[i] = false"
+                                 (editCanceled)="editedGroups[i]=false; groupsBeingEdited[i] = false"
+                                 (editingStarted)="groupsBeingEdited[i] = true">
+            </app-user-group-form>
+          </div>
+
+        </div>
+
+        <modal #groupRemoveModal
+               [modalTitle]="'Remove?'"
+               [closeButton]="false"
+               [closeOnUnfocus]="false"
+               [size]="'sm'">
+          <div class="modal-body">
+            Are you sure?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="groupRemoveModal.closeModal()"
+                    [disabled]="removingGroupInProgress">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" (click)="removeGroup(groupToRemove)"
+                    [disabled]="removingGroupInProgress">
+              Remove
+            </button>
+          </div>
+        </modal>
+
+        <div accordion-item class="panel" id="add-group-panel" #newGroupPanel>
+          <a accordion-heading class="panel-heading" href="#">
+            <h4 class="panel-title"><i class="fa fa-plus" aria-hidden="true"></i>{{'&nbsp;'.repeat(3)}}New group</h4>
+          </a>
+          <div class="panel-body">
+            <app-user-group-form *ngIf="newGroupPanel.open"
+                                 [allUsers]="users"
+                                 (groupSubmitted)="createGroup($event); newGroupIsBeingEdited = false"
+                                 (editCanceled)="newGroupPanel.open = false; newGroupIsBeingEdited = false"
+                                 (editingStarted)="newGroupIsBeingEdited = true">
+            </app-user-group-form>
+          </div>
+        </div>
+      </accordion>
+    </gtl-panel>
+  </div>
+  <app-confirm-dialog #confirmModal></app-confirm-dialog>
+</gtl-page-content>

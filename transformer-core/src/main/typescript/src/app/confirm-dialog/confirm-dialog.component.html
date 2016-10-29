@@ -1,0 +1,17 @@
+<modal #confirmModal
+       [modalTitle]='"Confirmation"'
+       [closeButton]="false"
+       [closeOnUnfocus]="false"
+       [size]="'sm'">
+  <div class="modal-body">
+    {{message}}
+  </div>
+  <div class="modal-footer">
+    <button id="okButton" type="button" class="btn btn-primary">
+      OK
+    </button>
+    <button id="cancelButton" type="button" class="btn btn-secondary">
+      Cancel
+    </button>
+  </div>
+</modal>

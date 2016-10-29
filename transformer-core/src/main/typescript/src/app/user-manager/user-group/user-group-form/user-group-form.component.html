@@ -1,0 +1,58 @@
+<form *ngIf="active" class="form-horizontal form-label-left" (ngSubmit)="onSubmit()" #groupForm="ngForm"
+      action="javascript:void(0)">
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Name <span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12"
+         tooltip
+         [text]="(name.valid || !name.touched) ? null : 'This value is required'"
+         [position]="'right'" [color]="'error'" [always]="true">
+      <input [(ngModel)]="editedGroup.name"
+             (ngModelChange)="onEditingStarted()"
+             #name="ngModel"
+             name="name"
+             type="text"
+             class="form-control col-md-7 col-xs-12"
+             [class.parsley-error]="!name.valid && name.touched"
+             [disabled]="editedGroup.automaticallyCreated"
+             required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Roles
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="btn-group">
+        <label class="btn btn-default" name=sysAdmin [(ngModel)]="sysAdmin" (ngModelChange)="onEditingStarted()"
+               btnCheckbox>SysAdmin</label>
+        <label class="btn btn-default" name=docEditor [(ngModel)]="docEditor" (ngModelChange)="onEditingStarted()"
+               btnCheckbox>DocEditor</label>
+        <label class="btn btn-default" name=docViewer [(ngModel)]="docViewer" (ngModelChange)="onEditingStarted()"
+               btnCheckbox>DocViewer</label>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="editedGroup.manualUserAssignementAllowed" class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Users
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <ng-select [multiple]="true"
+                 [active]="selectedUsernames"
+                 [items]="allUsernames"
+                 (data)="onGroupsSelect($event); onEditingStarted()"
+                 placeholder="select users">
+      </ng-select>
+    </div>
+  </div>
+
+  <div class="ln_solid"></div>
+  <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+      <button type="submit" class="btn btn-primary" [disabled]="!groupForm.form.valid">Save
+      </button>
+      <button class="btn" (click)="cancelEdit()">Cancel</button>
+    </div>
+  </div>
+</form>

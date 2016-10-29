@@ -1,0 +1,17 @@
+<gtl-page-content [title]="'Manage permissions'">
+  <div class="row">
+    <gtl-panel [title]="'Source tree'"
+               [hidable]="true"
+               [closable]="false"
+               [sizeClasses]="'col-md-12 col-sm-12 col-xs-12'">
+      <li class="gtl-panel-action"><button class="btn btn-link permission-button" (click)="expandAll()">
+        Expand all
+      </button></li>
+      <li class="gtl-panel-action"><button class="btn btn-link permission-button" (click)="collapseAll()">
+        Collapse all
+      </button></li>
+      <!-- TODO: fix bottom margin in the button above -->
+      <app-permission-tree [permissions]="permissions"></app-permission-tree>
+    </gtl-panel>
+  </div>
+</gtl-page-content>

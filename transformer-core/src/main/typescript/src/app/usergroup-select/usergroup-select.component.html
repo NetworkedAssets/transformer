@@ -1,0 +1,6 @@
+<select #select title="select permissions" multiple class="hidden">
+  <option *ngFor="let group of groups" [value]="group.id"
+          [attr.selected]="selectedGroups.indexOf(group.id) !== -1 ? 'selected' : null">
+    {{group.name}}
+  </option>
+</select>

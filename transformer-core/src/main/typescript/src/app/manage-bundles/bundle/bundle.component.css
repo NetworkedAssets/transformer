@@ -1,0 +1,17 @@
+.bundle-label {
+  text-align: right;
+  font-weight: bold;
+}
+
+.bundle-property {
+  font-size: 14px;
+}
+
+.row {
+  margin-bottom: 10px;
+  height: 34px;
+}
+
+.row>div {
+  margin-top: 8px;
+}

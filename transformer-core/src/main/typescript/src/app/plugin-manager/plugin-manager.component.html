@@ -1,0 +1,34 @@
+<gtl-page-content [title]="'Manage Plugins'" [searchBar]="false">
+  <div class="row">
+    <gtl-panel [title]="'Source plugins'"
+               [closable]="false"
+               [hidable]="true"
+               [sizeClasses]="'col-md-6 col-sm-12 col-xs-12'">
+      <ul class="list-unstyled top_profiles scroll-view">
+        <li *ngFor="let sourcePlugin of sourcePlugins" class="media event">
+          <a class="pull-left border-green profile_thumb">
+            <i class="fa fa-code green"></i>
+          </a>
+          <div class="media-body vcenter">
+            <a href="javascript:void(0);" class="title">{{sourcePlugin.identifier | capitalize | replace:'-':' '}}</a>
+          </div>
+        </li>
+      </ul>
+    </gtl-panel>
+    <gtl-panel [title]="'Converter plugins'"
+               [closable]="false"
+               [hidable]="true"
+               [sizeClasses]="'col-md-6 col-sm-12 col-xs-12'">
+      <ul class="list-unstyled top_profiles scroll-view">
+        <li *ngFor="let converterPlugin of converterPlugins" class="media event">
+          <a class="pull-left border-green profile_thumb">
+            <i class="fa fa-exchange green"></i>
+          </a>
+          <div class="media-body vcenter">
+            <a href="javascript:void(0);" class="title">{{converterPlugin.identifier | capitalize | replace:'-':' '}}</a>
+          </div>
+        </li>
+      </ul>
+    </gtl-panel>
+  </div>
+</gtl-page-content>

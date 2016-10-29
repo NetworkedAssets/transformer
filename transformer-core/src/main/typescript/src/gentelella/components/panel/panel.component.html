@@ -1,0 +1,35 @@
+<div class="{{sizeClasses || 'col-md-12 col-sm-12 col-xs-12'}}">
+  <div #xPanel class="x_panel">
+    <div class="x_title">
+      <h2>{{title}}</h2>
+      <ul class="nav navbar-right panel_toolbox"
+          [attr.style]="getSanitizedStyle()">
+        <ng-content select=".gtl-panel-action"></ng-content>
+        <li *ngIf="hidable">
+          <a class="collapse-link" (click)="hidePanel()">
+            <i #collapseIcon class="fa fa-chevron-up"></i>
+          </a>
+        </li>
+        <li class="dropdown" *ngIf="settings.length != 0">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            <i class="fa fa-wrench"></i></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Settings 1</a>
+            </li>
+            <li><a href="#">Settings 2</a>
+            </li>
+          </ul>
+        </li>
+        <li *ngIf="closable">
+          <a class="close-link" (click)="closePanel()">
+            <i class="fa fa-close"></i>
+          </a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div #xContent class="x_content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

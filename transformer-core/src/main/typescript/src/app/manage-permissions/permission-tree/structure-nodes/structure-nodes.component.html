@@ -1,0 +1,18 @@
+<accordion [closeOthers]="false" class="accordion">
+  <div #item *ngFor="let node of nodes; let i = index" accordion-item class="panel">
+    <a accordion-heading class="panel-heading" href="#">
+      <h4 class="panel-title">
+        {{node.nodeName}}
+        <app-usergroup-select (onSelect)="grant($event, node.sourceNodeIdentifier)" (onUnselect)="revoke($event, node.sourceNodeIdentifier)"
+                              (click)="$event.stopPropagation(); $event.preventDefault()" [selectedGroups]="node.sourceNodeIdentifier.userGroups">
+        </app-usergroup-select>
+        <i class="pull-right fa" *ngIf="node.children.length != 0"
+           [ngClass]="{'fa-chevron-up': item?.open, 'fa-chevron-down': !item || !item.open}"></i>
+      </h4>
+    </a>
+    <div class="panel-body" *ngIf="node.children.length != 0">
+      <app-structure-node [nodes]="node.children">
+      </app-structure-node>
+    </div>
+  </div>
+</accordion>

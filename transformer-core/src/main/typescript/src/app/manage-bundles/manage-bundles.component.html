@@ -1,0 +1,70 @@
+<gtl-page-content [title]="'Manage bundles'" [searchBar]="false">
+  <div class="row">
+    <gtl-panel [title]="'Bundles'"
+               [closable]="false"
+               [hidable]="true"
+               [sizeClasses]="'col-md-6 col-sm-12 col-xs-12'">
+      <accordion [closeOthers]="true" class="accordion">
+        <div *ngFor="let bundle of bundles; let i = index" accordion-item class="panel">
+          <a accordion-heading class="panel-heading" href="#">
+            <h4 class="panel-title">{{bundle.name}}</h4>
+          </a>
+          <div class="panel-body">
+            <app-bundle-form *ngIf="editedBundles[i]"
+                             [formId]="i"
+                             [originalBundle]="bundle"
+                             [submitColor]="'primary'"
+                             [submitText]="'Save'"
+                             [cancelText]="'Cancel'"
+                             [cancelAction]="cancelEditing(i)"
+                             (bundleSubmit)="save($event)"
+                             (changeNotify)="onChange($event)">
+            </app-bundle-form>
+            <div *ngIf="!editedBundles[i]">
+              <app-bundle [bundle]="bundle"></app-bundle>
+              <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button class="btn btn-primary" (click)="edit(i)">Edit</button>
+                <button class="btn btn-link" (click)="askRemove(bundle)">Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <app-confirm-dialog #confirmModal></app-confirm-dialog>
+        <modal #removeModal
+               [modalTitle]="'Remove?'"
+               [closeButton]="false"
+               [closeOnUnfocus]="false"
+               [size]="'sm'">
+          <div class="modal-body">
+            Are you sure?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="removeModal.closeModal()"
+                    [disabled]="removingInProgress">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" (click)="remove(toRemove)" [disabled]="removingInProgress">
+              Remove
+            </button>
+          </div>
+        </modal>
+
+        <div accordion-item class="panel" id="add-boundle-panel">
+          <a accordion-heading class="panel-heading" href="#">
+            <h4 class="panel-title"><i class="fa fa-plus" aria-hidden="true"></i>{{'&nbsp;'.repeat(3)}}New bundle</h4>
+          </a>
+          <div class="panel-body">
+            <app-bundle-form #addForm (bundleSubmit)="addBundle($event)"
+                             (changeNotify)="onChange($event)"></app-bundle-form>
+          </div>
+        </div>
+      </accordion>
+    </gtl-panel>
+    <gtl-panel [title]="'Available sources'"
+               [closable]="false"
+               [hidable]="true"
+               [sizeClasses]="'col-md-6 col-sm-12 col-xs-12'">
+      <source-unit-chooser></source-unit-chooser>
+    </gtl-panel>
+  </div>
+</gtl-page-content>

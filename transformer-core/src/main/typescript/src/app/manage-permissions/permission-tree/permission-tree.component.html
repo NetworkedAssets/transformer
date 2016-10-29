@@ -1,0 +1,21 @@
+<accordion [closeOthers]="false" class="accordion">
+  <div class="pagination-centered text-center" [class.hidden]="doneLoading">
+    <i class="fa fa-cog fa-spin fa-3x fa-fw margin-bottom" aria-hidden="true" [class.hidden]="doneLoading"></i>
+  </div>
+  <div #item *ngFor="let source of sources; let i = index" accordion-item class="panel">
+    <a accordion-heading class="panel-heading" href="#">
+      <h4 class="panel-title">
+        {{source.name}}
+        <app-usergroup-select (onSelect)="grant($event, source.structure.sourceNodeIdentifier)" (onUnselect)="revoke($event, source.structure.sourceNodeIdentifier)"
+                              (click)="$event.stopPropagation(); $event.preventDefault()" [selectedGroups]="source.structure.sourceNodeIdentifier.userGroups">
+        </app-usergroup-select>
+        <i class="pull-right fa"
+           [ngClass]="{'fa-chevron-up': item?.open, 'fa-chevron-down': !item || !item.open}"></i>
+      </h4>
+    </a>
+    <div class="panel-body">
+      <app-structure-node [nodes]="source.structure.children">
+      </app-structure-node>
+    </div>
+  </div>
+</accordion>

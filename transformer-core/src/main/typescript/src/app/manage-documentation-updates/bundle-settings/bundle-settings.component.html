@@ -1,0 +1,106 @@
+<form class="form-horizontal form-label-left" (ngSubmit)="onSubmit()" #settingsForm="ngForm"
+      action="javascript:void(0)">
+  <div class="col-md-5 col-sm-5 col-xs-5 col-md-offset-3">
+    <h5 class="panel-info"><b>General</b></h5>
+
+    <div class="row">
+      <h5 class="panel-info col-md-3 col-sm-3 col-xs-3">Update on</h5>
+      <div class="btn-group col-md-6 col-sm-6 col-xs-6">
+        <label class="btn btn-primary" [(ngModel)]="updateType" name="off" btnRadio="Off">Off</label>
+        <label class="btn btn-primary" [(ngModel)]="updateType" name="git" btnRadio="Git">Git event</label>
+        <label class="btn btn-primary" [(ngModel)]="updateType" name="schedule" btnRadio="Schedule">Schedule</label>
+      </div>
+      <div class="col-md-3 col-sm-3 col-xs-3">
+        <button type="button" class="btn btn-primary" (click)="updateNow(bundle)">
+          Update now
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="updateType==='Schedule'">
+      <h5 class="panel-info"><b>Schedule events</b></h5>
+      <div *ngFor="let info of bundle.scheduleInfos; let i = index">
+        <div class="ln_solid"></div>
+        <div class="row">
+          <h5 class="panel-info col-md-3 col-sm-3 col-xs-3">Event type</h5>
+          <div class="btn-group col-md-6 col-sm-6 col-xs-6">
+            <label class="btn btn-primary" [(ngModel)]="info.eventType" name="{{i}}.oneTime" btnRadio="oneTime"
+                   (click)="setPeriodic(info, false)">Onetime</label>
+            <label class="btn btn-primary" [(ngModel)]="info.eventType" name="{{i}}.periodic" btnRadio="periodic"
+                   (click)="setPeriodic(info, true)">Periodic</label>
+          </div>
+        </div>
+
+        <div *ngIf="!info.periodic">
+          <div class="row">
+            <h5 class="panel-info col-md-3 col-sm-3 col-xs-3">Date</h5>
+            <div tooltip [text]="(oneTimeDate.valid || !oneTimeDate.touched) ? null : 'This value is required'"
+                 [position]="'right'" [color]="'error'" [always]="true" class="col-md-6 col-sm-6 col-xs-6">
+              <app-datepicker #oneTimeDate="ngModel" [(ngModel)]="info.oneTimeDate" required name="{{i}}.date"
+                              [inputClasses]="(!oneTimeDate.valid && oneTimeDate.touched) ? 'parsley-error' : ''"
+                              (ngModelChange)="onChange($event)">
+              </app-datepicker>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="info.periodic">
+          <div class="row">
+            <h5 class="panel-info col-md-3 col-sm-3 col-xs-3">Every</h5>
+            <div tooltip [text]="(number.valid || !number.touched) ? null : 'This value is required'"
+                 [position]="'right'" [color]="'error'" [always]="true"
+                 class="col-md-3 col-sm-3 col-xs-3">
+              <input name="{{i}}.number" type="number" #number="ngModel" [(ngModel)]="info.number" min="1" required
+                     class="form-control {{(!number.valid && number.touched) ? 'parsley-error' : ''}}"
+                     (ngModelChange)="onChange($event)"/>
+            </div>
+            <div class="btn-group col-md-6 col-sm-6 col-xs-6">
+              <label class="btn btn-primary" name="{{i}}.day" [(ngModel)]="info.periodType" btnRadio="DAY">
+                Day
+              </label>
+              <label class="btn btn-primary" name="{{i}}.week" [(ngModel)]="info.periodType" btnRadio="WEEK">
+                Week
+              </label>
+            </div>
+          </div>
+
+          <div *ngIf="info.periodType==='WEEK'">
+            <div class="row">
+              <h5 class="panel-info col-md-3 col-sm-3 col-xs-3">Days of week</h5>
+              <div class="btn-group col-md-9 col-sm-9 col-xs-9">
+                <label *ngFor="let day of info.daysKeys" class="btn btn-primary" [(ngModel)]="info.weekdays[day]"
+                       name="{{i}}.{{day}}" btnCheckbox>{{day | capitalize}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <h5 class="panel-info col-md-3 col-sm-3 col-xs-3">Time</h5>
+          <div tooltip [text]="(time.valid || !time.touched) ? null : 'This value is required'"
+               [position]="'right'" [color]="'error'" [always]="true" class="col-md-3 col-sm-3 col-xs-3">
+            <input #time="ngModel" name="{{i}}.time" type="time" [(ngModel)]="info.time" required
+                   class="form-control {{(!time.valid && time.touched) ? 'parsley-error' : ''}}"
+                   (ngModelChange)="onChange($event)"/>
+          </div>
+        </div>
+
+        <div class="row btn-centered">
+          <button class="btn btn-link btn" (click)="removeSchedule(info)">Remove event</button>
+        </div>
+      </div>
+
+      <div class="ln_solid"></div>
+      <div class="row btn-centered">
+        <button type="button" class="btn" (click)="addSchedule()">Add event</button>
+      </div>
+    </div>
+
+    <div class="ln_solid"></div>
+    <div class="row btn-centered">
+      <button type="submit" class="btn btn-primary" [disabled]="!settingsForm.form.valid">Save</button>
+      <button type="button" class="btn" (click)="revert()">Revert</button>
+    </div>
+
+  </div>
+</form>

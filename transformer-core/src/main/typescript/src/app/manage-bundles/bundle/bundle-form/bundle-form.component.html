@@ -1,0 +1,52 @@
+<!--suppress XmlInvalidId, HtmlFormInputWithoutLabel -->
+<form *ngIf="active" class="form-horizontal form-label-left" (ngSubmit)="onSubmit()" #bundleForm="ngForm"
+      action="javascript:void(0)">
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12"
+         tooltip
+         [text]="(name.valid || !name.touched) ? null : 'This value is required'"
+         [position]="'right'" [color]="'error'" [always]="true">
+      <input [(ngModel)]="bundle.name"
+             #name="ngModel"
+             (ngModelChange)="onChange($event)"
+             name="name"
+             type="text"
+             class="form-control col-md-7 col-xs-12"
+             [class.parsley-error]="!name.valid && name.touched"
+             required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">User groups <span class="required">*</span></label>
+    <app-usergroup-select class="col-md-6 col-sm-6 col-xs-12" [selectedGroups]="selectedGroupsIds"
+                          (onSelect)="addUserGroup($event)"
+                          (onUnselect)="removeUserGroup($event)">
+    </app-usergroup-select>
+  </div>
+  <div class="form-group" [id]="formId">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Source units <span class="required">*</span>
+    </label>
+    <div id='sourceUnit' class='col-md-9' [dragula]='"items"' [dragulaModel]="bundle.sourceUnits">
+      <div *ngFor='let sourceUnit of bundle.sourceUnits' class="list-group-item bundle-unit">
+        <app-bundle-item [item]="sourceUnit" (bundleItemRemove)="removeSourceUnit($event)"
+                         (bundleItemAdd)="validateSourceUnit($event)">
+        </app-bundle-item>
+      </div>
+      <div *ngIf="bundle.sourceUnits.length === 0" class="alert alert-info" role="alert">Drag source units from the list
+        on the right and then drop them here.
+      </div>
+      <!-- TODO info acts as placeholder for now, so you could drop something into an empty field, but should
+      somehow be moved out of accordion -->
+    </div>
+
+  </div>
+  <div class="ln_solid"></div>
+  <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+      <button type="submit" class="btn btn-{{submitColor}}" [disabled]="!bundleForm.form.valid">{{submitText}}</button>
+      <button class="btn" (click)="cancel($event)">{{cancelText}}</button>
+    </div>
+  </div>
+</form>

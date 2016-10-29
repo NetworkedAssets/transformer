@@ -1,0 +1,97 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>transformer</artifactId>
+        <groupId>com.networkedassets.condoc</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>github-source-plugin</artifactId>
+    <packaging>war</packaging>
+
+    <name>github-source-plugin</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.networkedassets.condoc</groupId>
+            <artifactId>transformer-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+            <version>4.4.0.201605250940-rc1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/groovy</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <archive>
+                        <manifestEntries>
+                            <Dependencies>deployment.transformer-core.war</Dependencies>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <excludedGroups>com.networkedassets.condoc.githubSourcePlugin.core.IntegrationTest</excludedGroups>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+                    <groups>com.networkedassets.condoc.githubSourcePlugin.core.IntegrationTest</groups>
+                    <systemProperties>
+                        <property>
+                            <name>usr</name>
+                            <value>${usr}</value>
+                        </property>
+                        <property>
+                            <name>pwd</name>
+                            <value>${pwd}</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

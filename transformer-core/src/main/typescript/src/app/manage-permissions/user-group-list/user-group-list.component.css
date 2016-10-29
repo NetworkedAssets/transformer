@@ -1,0 +1,12 @@
+.vcenter {
+  vertical-align: middle;
+  line-height: 60px;
+}
+
+.fa {
+  -webkit-transform: translateX(-4px);
+  -moz-transform: translateX(-4px);
+  -ms-transform: translateX(-4px);
+  -o-transform: translateX(-4px);
+  transform: translateX(-4px);
+}

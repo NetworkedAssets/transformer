@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-md-3 col-sm-3 col-xs-12 bundle-label">Name</div>
+  <div class="col-md-6 col-sm-6 col-xs-12 bundle-property">{{group.name}}</div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-sm-3 col-xs-12 bundle-label">Automatically created</div>
+  <div class="col-md-6 col-sm-6 col-xs-12 bundle-property">{{group.automaticallyCreated ? 'Yes' : 'No'}}</div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-sm-3 col-xs-12 bundle-label">Manual user assignement</div>
+  <div class="col-md-6 col-sm-6 col-xs-12 bundle-property">{{group.manualUserAssignementAllowed ? 'Yes' : 'No'}}</div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-sm-3 col-xs-12 bundle-label">Roles</div>
+  <div class="col-md-6 col-sm-6 col-xs-12 bundle-property">
+    <span class="label label-info" style="margin-right: 3px" *ngFor="let role of group.roles">
+      {{role}}
+    </span>
+  </div>
+</div>
+
+<h5 style="margin-top: 20px">Users</h5>
+<ul class="list-group" >
+  <li *ngFor="let user of group.users" class="list-group-item">
+    <span class="glyphicon glyphicon-user"></span> {{user.username}}
+  </li>
+</ul>
+
+<div class="ln_solid"></div>
+<div  class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+  <button class="btn btn-primary" (click)="enableEdit()">Edit</button>
+  <button *ngIf="!group.automaticallyCreated" class="btn btn-link" (click)="remove()">Remove</button>
+</div>

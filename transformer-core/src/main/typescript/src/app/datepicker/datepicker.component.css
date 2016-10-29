@@ -1,0 +1,7 @@
+.day:not(.disabled) {
+  color: #1a3a95;
+}
+
+input[readonly].force-enabled {
+  background-color: #fff;
+}

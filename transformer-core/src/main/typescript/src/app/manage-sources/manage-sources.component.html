@@ -1,0 +1,62 @@
+<gtl-page-content [title]="'Manage Sources'" [searchBar]="false">
+
+  <div class="row">
+    <gtl-panel [title]="'Sources'"
+               [closable]="false"
+               [hidable]="true">
+      <accordion [closeOthers]="false" class="accordion">
+        <div *ngFor="let source of sources; let i = index" accordion-item class="panel">
+          <a accordion-heading class="panel-heading" href="#">
+            <h4 class="panel-title">{{source.name}}</h4>
+          </a>
+          <div class="panel-body">
+            <app-source-form *ngIf="editedSources[i]"
+                             [formId]="i"
+                             [originalSource]="source"
+                             [submitColor]="'primary'"
+                             [submitText]="'Save'"
+                             [cancelText]="'Cancel'"
+                             [cancelAction]="cancelEditing(i)"
+                             (sourceSubmit)="save($event)"
+                             (changeNotify)="onChange($event)">
+            </app-source-form>
+            <div *ngIf="!editedSources[i]">
+              <app-source [source]="source"></app-source>
+              <div class="ln_solid"></div>
+              <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button class="btn btn-primary" (click)="edit(i)">Edit</button>
+                <button class="btn btn-link" (click)="askRemove(source)">Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <app-confirm-dialog #confirmModal></app-confirm-dialog>
+        <modal #removeModal
+               [modalTitle]="'Remove?'"
+               [closeButton]="false"
+               [closeOnUnfocus]="false"
+               [size]="'sm'">
+          <div class="modal-body">
+            Are you sure?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="removeModal.closeModal()" [disabled]="removingInProgress">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" (click)="remove(toRemove)" [disabled]="removingInProgress">
+              Remove
+            </button>
+          </div>
+        </modal>
+        <div accordion-item class="panel" id="add-source-panel">
+          <a accordion-heading class="panel-heading" href="#">
+            <h4 class="panel-title"><i class="fa fa-plus" aria-hidden="true"></i>{{'&nbsp;'.repeat(3)}}New source</h4>
+          </a>
+          <div class="panel-body">
+            <app-source-form #addForm (sourceSubmit)="addSource($event)" (changeNotify)="onChange($event)"></app-source-form>
+          </div>
+        </div>
+      </accordion>
+    </gtl-panel>
+  </div>
+</gtl-page-content>

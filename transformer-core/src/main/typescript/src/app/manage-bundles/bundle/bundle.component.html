@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-md-3 col-sm-3 col-xs-12 bundle-label">Name</div>
+  <div class="col-md-6 col-sm-6 col-xs-12 bundle-property">{{bundle.name}}</div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-sm-3 col-xs-12 bundle-label">User groups</div>
+  <div class="col-md-6 col-sm-6 col-xs-12 bundle-property"><span *ngFor="let userGroup of bundle.userGroups; let l = last"><span class="label label-info">{{userGroup.name}}</span><span *ngIf="!l"> </span></span></div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-sm-3 col-xs-12 bundle-label">Source units</div>
+  <ul class="list-group col-md-9">
+    <li *ngFor="let sourceUnit of bundle.sourceUnits" class="list-group-item bundle-unit">{{sourceUnit
+      .sourceNodeIdentifier.unitIdentifier|replace:'|':'&nbsp;/&nbsp;'}}
+    </li>
+  </ul>
+</div>

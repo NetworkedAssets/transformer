@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>transformer</artifactId>
+        <groupId>com.networkedassets.condoc</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>json-doclet</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sun</groupId>
+            <artifactId>tools</artifactId>
+            <version>${java.version}</version>
+            <scope>system</scope>
+            <systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+</project>

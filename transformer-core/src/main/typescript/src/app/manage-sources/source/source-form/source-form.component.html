@@ -1,0 +1,96 @@
+<!--suppress XmlInvalidId, HtmlFormInputWithoutLabel -->
+<form *ngIf="active" class="form-horizontal form-label-left" (ngSubmit)="onSubmit()" #sourceForm="ngForm"
+      action="javascript:void(0)">
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12"
+         tooltip
+         [text]="(name.valid || !name.touched) ? null : 'This value is required'"
+         [position]="'right'" [color]="'error'" [always]="true">
+      <input [(ngModel)]="source.name"
+             #name="ngModel"
+             (ngModelChange)="onChange($event)"
+             name="name"
+             type="text"
+             class="form-control col-md-7 col-xs-12"
+             [class.parsley-error]="!name.valid && name.touched"
+             required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sourceUrl">URL <span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12"
+         tooltip
+         [text]="(sourceUrl.valid || !sourceUrl.touched) ? null : 'This value is required'"
+         [position]="'right'" [color]="'error'" [always]="true">
+      <input [(ngModel)]="source.url"
+             #sourceUrl="ngModel"
+             (ngModelChange)="onChange($event)"
+             name="sourceUrl"
+             type="text"
+             class="form-control col-md-7 col-xs-12"
+             [class.parsley-error]="!sourceUrl.valid && sourceUrl.touched"
+             required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sourceType">
+      Type <span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12"
+         tooltip
+         [text]="(sourceType.valid || !sourceType.touched) ? null : 'This value is required'"
+         [position]="'right'" [color]="'error'" [always]="true">
+      <select [ngModel]="selectedTypeIndex" (ngModelChange)="changeSelectedType($event)"
+              #sourceType="ngModel"
+              name="sourceType"
+              class="form-control"
+              [class.parsley-error]="!sourceType.valid && sourceType.touched"
+              required>
+        <option *ngFor="let sourceType of sourceTypes; let i = index" [value]="i">{{sourceType.identifier}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group" *ngFor="let settingsField of source.settings">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" [attr.for]="settingsField.name">
+      {{settingsField.name | capitalize}} <span class="required">*</span>
+    </label>
+    <div [ngSwitch]="settingsField.type">
+      <div *ngSwitchCase="'PASSWORD'" class="col-md-6 col-sm-6 col-xs-12"
+           tooltip
+           [text]="(requiredPassword.valid || !requiredPassword.touched) ? null : 'This value is required'"
+           [position]="'right'" [color]="'error'" [always]="true">
+        <input [(ngModel)]="settingsField.value"
+               (ngModelChange)="onChange($event)"
+               #requiredPassword="ngModel"
+               name="{{settingsField.name}}"
+               type="password"
+               class="form-control col-md-7 col-xs-12"
+               [class.parsley-error]="!requiredPassword.valid && requiredPassword.touched"
+               required/>
+      </div>
+      <div *ngSwitchDefault class="col-md-6 col-sm-6 col-xs-12"
+           tooltip
+           [text]="(requiredOther.valid || !requiredOther.touched) ? null : 'This value is required'"
+           [position]="'right'" [color]="'error'" [always]="true">
+        <input [(ngModel)]="settingsField.value"
+               (ngModelChange)="onChange($event)"
+               #requiredOther="ngModel"
+               name="{{settingsField.name}}"
+               type="text"
+               class="form-control col-md-7 col-xs-12"
+               [class.parsley-error]="!requiredOther.valid && requiredOther.touched"
+               required/>
+      </div>
+    </div>
+  </div>
+  <div class="ln_solid"></div>
+  <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+      <button type="submit" class="btn btn-{{submitColor}}" [disabled]="!sourceForm.form.valid">{{submitText}}</button>
+      <button class="btn" (click)="cancel($event)">{{cancelText}}</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,19 @@
+<datasources>
+    <datasource jta="true" jndi-name="java:/TransformerPostgresDS" pool-name="TransformerPostgresDS" enabled="true"
+                use-ccm="true">
+        <connection-url>\${env.TRANSFORMER_DB_CONNECTION_URL}</connection-url>
+        <driver-class>org.postgresql.Driver</driver-class>
+        <driver>postgresql-POSTGRESVERSION.jar</driver>
+        <security>
+            <user-name>\${env.TRANSFORMER_DB_USERNAME}</user-name>
+            <password>\${env.TRANSFORMER_DB_PASSWORD}</password>
+        </security>
+        <validation>
+            <valid-connection-checker
+                    class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+            <background-validation>true</background-validation>
+            <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
+        </validation>
+    </datasource>
+    $1
+</datasources>

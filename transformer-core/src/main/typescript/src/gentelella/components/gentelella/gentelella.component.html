@@ -1,0 +1,19 @@
+<div class="container body">
+  <div class="main_container">
+    <gtl-sidebar [small]="smallNav"
+                 [siteIcon]="siteIcon"
+                 [siteTitle]="siteTitle"
+                 [routeSections]="routeSections"
+                 [groupIcons]="groupIcons">
+    </gtl-sidebar>
+    <gtl-top-navigation (toggleSmallNavEvent)="toggleSmallNav()"></gtl-top-navigation>
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+      <ng-content></ng-content>
+    </div>
+    <!-- /page content -->
+
+    <!--gtl-footer></gtl-footer-->
+  </div>
+</div>

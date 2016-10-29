@@ -1,0 +1,27 @@
+<ol class="breadcrumb">
+  <li><a (click)="setLevel(0)">Sources</a></li>
+  <li *ngIf="chosenSource"><a href="javascript:void(0)" (click)="setLevel(1)">{{chosenSource.name}}</a></li>
+  <li *ngFor="let node of chosenNodes; let i=index"><a href="javascript:void(0)" (click)="setLevel(i + 2)">{{node.nodeName}}</a></li>
+</ol>
+<div *ngIf="!loading">
+  <div *ngIf="!chosenSource">
+    <div class="list-group">
+      <a *ngFor="let source of sources" class="list-group-item" (click)="setSource(source)">{{source.name}}</a>
+    </div>
+    <p class="text-center" *ngIf="!sources.length">No sources found.</p>
+  </div>
+  <div *ngIf="chosenSource && !draggableLevel">
+    <div class="list-group">
+      <a *ngFor="let node of availableNodes" class="list-group-item" (click)="setNode(node)">{{node.nodeName}}</a>
+    </div>
+    <p class="text-center" *ngIf="!availableNodes.length">No nodes found.</p>
+  </div>
+  <div *ngIf="chosenSource && draggableLevel">
+    <ul class="list-group container" [dragula]='"items"' [dragulaModel]="availableNodes">
+      <li *ngFor="let node of availableNodes" class="list-group-item source-unit-chooser-draggable" [attr.data-data]="node|json">{{node.nodeName}}</li>
+    </ul>
+    <p class="text-center" *ngIf="!availableNodes.length">No nodes found.</p>
+  </div>
+</div>
+
+<p class="text-center"><i class="fa fa-cog fa-spin fa-2x fa-fw margin-bottom" aria-hidden="true" [class.hidden]="!loading"></i></p>

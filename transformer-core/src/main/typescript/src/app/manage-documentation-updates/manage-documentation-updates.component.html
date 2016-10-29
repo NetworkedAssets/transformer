@@ -1,0 +1,23 @@
+<gtl-page-content [title]="'Manage documentation updates'" [searchBar]="false">
+  <div class="row">
+    <gtl-panel [title]="'Available Bundles'"
+               [closable]="false"
+               [hidable]="true">
+      <accordion [closeOthers]="true" class="accordion">
+        <div *ngFor="let bundle of bundles; let i = index" accordion-item class="panel">
+          <a accordion-heading class="panel-heading" href="#">
+            <h4 class="panel-title">{{bundle.name}}</h4>
+          </a>
+          <div class="panel-body">
+            <app-bundle-settings [originalBundle]="bundle"
+                                 [formId]="i"
+                                 (changeNotify)="onChange($event)"
+                                 (saveNotify)="onSave($event)">
+            </app-bundle-settings>
+          </div>
+        </div>
+        <app-confirm-dialog #confirmModal></app-confirm-dialog>
+      </accordion>
+    </gtl-panel>
+  </div>
+</gtl-page-content>

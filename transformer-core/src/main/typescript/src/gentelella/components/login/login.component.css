@@ -1,0 +1,16 @@
+.login_wrapper {
+  margin-top: 0;
+}
+
+.login {
+  height: 100vh;
+}
+
+.nudge-down {
+  position: relative;
+  top: 10%;
+}
+
+h1::before, h1::after {
+  display: none !important;
+}
